@@ -53,7 +53,7 @@ VectorHub is a production-ready vector search system that demonstrates state-of-
 ### Prerequisites
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/vectorhub.git
+git clone https://github.com/MHHamdan/vectorhub.git
 
 # Create virtual environment
 python -m venv venv
