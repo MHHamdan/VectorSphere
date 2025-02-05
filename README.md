@@ -5,7 +5,7 @@ VectorHub is a production-ready vector search system that demonstrates state-of-
 
 ### Key Features
 - Multi-model embedding pipeline supporting different embedding approaches
-- Scalable vector search implementation using HNSW and Faiss
+- Scalable vector search implementation using HNSW (https://www.pinecone.io/learn/series/faiss/hnsw/) and Faiss (https://www.pinecone.io/learn/series/faiss/)
 - Advanced retrieval system with hybrid search (combining vector and text search)
 - RAG (Retrieval Augmented Generation) implementation with LLM integration
 - Comprehensive MLOps pipeline for model deployment and monitoring
@@ -25,7 +25,7 @@ VectorHub is a production-ready vector search system that demonstrates state-of-
    - PGVector integration for hybrid search capabilities
 
 3. **Retrieval System**
-   - Hybrid search combining BM25 and vector similarity
+   - Hybrid search combining BM25 and vector similarity (https://weaviate.io/blog/hybrid-search-explained)
    - Re-ranking pipeline
    - RAG implementation with configurable LLM backends
 
@@ -53,7 +53,7 @@ VectorHub is a production-ready vector search system that demonstrates state-of-
 ### Prerequisites
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/vectorhub.git
+git clone https://github.com/MHHamdan/vectorhub.git
 
 # Create virtual environment
 python -m venv venv
@@ -103,7 +103,7 @@ vectorhub/
    - Documentation and examples
 
 ## Contributing
-Contributions are welcome! Please read our contributing guidelines before submitting pull requests.
+Contributions are welcome! Please read our [contributing guidelines](CONTRIBUTING.md) before submitting pull requests.
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
