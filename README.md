@@ -5,7 +5,7 @@ VectorHub is a production-ready vector search system that demonstrates state-of-
 
 ### Key Features
 - Multi-model embedding pipeline supporting different embedding approaches
-- Scalable vector search implementation using HNSW and Faiss
+- Scalable vector search implementation using HNSW (https://www.pinecone.io/learn/series/faiss/hnsw/) and Faiss (https://www.pinecone.io/learn/series/faiss/)
 - Advanced retrieval system with hybrid search (combining vector and text search)
 - RAG (Retrieval Augmented Generation) implementation with LLM integration
 - Comprehensive MLOps pipeline for model deployment and monitoring
