@@ -25,7 +25,7 @@ VectorHub is a production-ready vector search system that demonstrates state-of-
    - PGVector integration for hybrid search capabilities
 
 3. **Retrieval System**
-   - Hybrid search combining BM25 and vector similarity
+   - Hybrid search combining BM25 and vector similarity (https://weaviate.io/blog/hybrid-search-explained)
    - Re-ranking pipeline
    - RAG implementation with configurable LLM backends
 
