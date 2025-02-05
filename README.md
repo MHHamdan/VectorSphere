@@ -74,16 +74,31 @@ uvicorn app.main:app --reload
 
 ## Project Structure
 ```
-vectorhub/
+VectorHub/
+│
 ├── app/
-│   ├── api/            # FastAPI routes
-│   ├── core/           # Core business logic
-│   ├── models/         # ML models and embeddings
-│   └── services/       # External service integrations
-├── tests/             # Comprehensive test suite
-├── notebooks/         # Research notebooks
-├── deployment/        # Kubernetes and deployment configs
-└── scripts/          # Utility scripts
+│   ├── __init__.py
+│   ├── main.py                 # Your FastAPI application
+│   ├── services/
+│   │   ├── __init__.py
+│   │   ├── embedding.py        # Embedding service implementation
+│   │   └── vector_db.py        # Vector database service
+│   └── core/
+│       ├── __init__.py
+│       └── config.py           # Configuration module
+│
+├── tests/
+│   ├── __init__.py
+│   ├── conftest.py            # Test configurations and fixtures
+│   ├── test_embedding_service.py
+│   ├── test_vector_db_service.py
+│   └── test_api.py
+│
+├── Dockerfile                  # Docker configuration
+├── docker-compose.yml         # Docker Compose configuration
+├── .dockerignore             # Docker ignore file
+├── requirements.txt          # Project dependencies
+└── pytest.ini               # Pytest configuration
 ```
 
 ## Development Roadmap
