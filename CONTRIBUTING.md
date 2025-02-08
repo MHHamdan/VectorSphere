@@ -1,6 +1,6 @@
-# Contributing to VectorHub
+# Contributing to VectorSphere
 
-Thank you for your interest in contributing to VectorHub! This document provides guidelines and steps for contributing to this project.
+Thank you for your interest in contributing to VectorSphere! This document provides guidelines and steps for contributing to this project.
 
 ## Code of Conduct
 
@@ -13,8 +13,8 @@ By participating in this project, you agree to maintain a respectful and inclusi
 1. Fork the repository
 2. Clone your fork:
    ```bash
-   git clone https://github.com/MHHamdan/VectorHub.git
-   cd VectorHub
+   git clone https://github.com/MHHamdan/VectorSphere.git
+   cd VectorSphere
    ```
 3. Create a virtual environment:
    ```bash
