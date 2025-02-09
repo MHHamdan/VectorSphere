@@ -1,3 +1,9 @@
+<div align="center">
+  <img src="assets/images/vectorsphere-logo.png" alt="VectorSphere Logo" width="200"/>
+</div>
+
+# VectorSphere: Advanced Vector Search & Retrieval System
+
 # VectorSphere: Advanced Vector Search & Retrieval System
 
 ## Project Overview
