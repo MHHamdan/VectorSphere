@@ -1,21 +1,18 @@
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 from functools import lru_cache
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, List
 import os
 from dotenv import load_dotenv
+import json
 
 # Load environment variables from .env file
 load_dotenv()
 
 class Settings(BaseSettings):
-    """Application settings management using Pydantic.
-    
-    This class manages all configuration settings for the application,
-    supporting both development and production environments.
-    """
+    """Application settings management using Pydantic."""
     
     # Application Settings
-    APP_NAME: str = "VectorHub"
+    APP_NAME: str = "VectorSphere"
     APP_VERSION: str = "1.0.0"
     DEBUG: bool = False
     
@@ -34,7 +31,7 @@ class Settings(BaseSettings):
     # Embedding Model Settings
     DEFAULT_MODEL_NAME: str = "sentence-transformers/all-MiniLM-L6-v2"
     MODEL_MAX_LENGTH: int = 512
-    USE_CUDA: Optional[bool] = None  # None means auto-detect
+    USE_CUDA: Optional[bool] = False  # Changed to have a default value
     
     # Cache Settings
     CACHE_ENABLED: bool = True
@@ -44,7 +41,7 @@ class Settings(BaseSettings):
     # Security Settings
     API_KEY_HEADER: str = "X-API-Key"
     API_KEY: Optional[str] = None
-    CORS_ORIGINS: list = ["*"]
+    CORS_ORIGINS: List[str] = ["*"]
     
     # Logging Settings
     LOG_LEVEL: str = "INFO"
@@ -56,11 +53,7 @@ class Settings(BaseSettings):
         case_sensitive = True
 
     def get_vector_db_config(self) -> Dict[str, Any]:
-        """Get vector database configuration dictionary.
-        
-        Returns:
-            Dictionary containing vector database configuration settings.
-        """
+        """Get vector database configuration dictionary."""
         return {
             "host": self.VECTOR_DB_HOST,
             "port": self.VECTOR_DB_PORT,
@@ -72,25 +65,21 @@ class Settings(BaseSettings):
         }
 
     def get_embedding_config(self) -> Dict[str, Any]:
-        """Get embedding model configuration dictionary.
-        
-        Returns:
-            Dictionary containing embedding model configuration settings.
-        """
+        """Get embedding model configuration dictionary."""
+        try:
+            import torch
+            cuda_available = torch.cuda.is_available()
+        except ImportError:
+            cuda_available = False
+
         return {
             "model_name": self.DEFAULT_MODEL_NAME,
             "max_length": self.MODEL_MAX_LENGTH,
-            "device": "cuda" if self.USE_CUDA is True or 
-                    (self.USE_CUDA is None and torch.cuda.is_available()) 
-                    else "cpu"
+            "device": "cuda" if self.USE_CUDA and cuda_available else "cpu"
         }
 
     def get_cache_config(self) -> Dict[str, Any]:
-        """Get cache configuration dictionary.
-        
-        Returns:
-            Dictionary containing cache configuration settings.
-        """
+        """Get cache configuration dictionary."""
         return {
             "enabled": self.CACHE_ENABLED,
             "ttl": self.CACHE_TTL,
@@ -99,51 +88,10 @@ class Settings(BaseSettings):
 
 @lru_cache()
 def get_settings() -> Settings:
-    """Create and cache settings instance.
-    
-    Returns:
-        Cached Settings instance.
-    """
+    """Create and cache settings instance."""
     return Settings()
 
-# Example .env file template
-def create_env_template():
-    """Create a template .env file with default values."""
-    template = """# Application Settings
-APP_NAME=VectorHub
-APP_VERSION=1.0.0
-DEBUG=False
-
-# API Settings
-API_HOST=0.0.0.0
-API_PORT=8000
-API_WORKERS=4
-
-# Vector Database Settings
-VECTOR_DB_HOST=localhost
-VECTOR_DB_PORT=8080
-VECTOR_DB_BATCH_SIZE=100
-VECTOR_DB_TIMEOUT_RETRIES=3
-VECTOR_DB_TIMEOUT_SECONDS=300
-
-# Embedding Model Settings
-DEFAULT_MODEL_NAME=sentence-transformers/all-MiniLM-L6-v2
-MODEL_MAX_LENGTH=512
-USE_CUDA=
-
-# Cache Settings
-CACHE_ENABLED=True
-CACHE_TTL=3600
-CACHE_MAX_SIZE=10000
-
-# Security Settings
-API_KEY=
-CORS_ORIGINS=*
-
-# Logging Settings
-LOG_LEVEL=INFO
-"""
-    
-    env_path = os.path.join(os.path.dirname(__file__), ".env")
-    if not os.path.exists(env_path):
-        with open(env_path, "
+if __name__ == "__main__":
+    # Print current settings
+    settings = get_settings()
+    print(f"Current settings loaded: {settings.APP_NAME}")

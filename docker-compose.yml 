@@ -1,59 +1,55 @@
 version: '3.8'
 
 services:
-api:
-build:
-context: .
-dockerfile: Dockerfile
-ports:
-- "8000:8000"
-environment:
-- VECTOR_DB_HOST=vectordb
-- VECTOR_DB_PORT=8080
-- DEBUG=true
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vectorsphere_api
+    ports:
+      - "8000:8000"
+    environment:
+      - VECTOR_DB_HOST=vectordb
+      - VECTOR_DB_PORT=8080
+      - DEBUG=true
+    volumes:
+      - .:/app
+    depends_on:
+      - vectordb
+    networks:
+      - vectorsphere-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  vectordb:
+    image: semitechnologies/weaviate:1.19.0
+    container_name: vectorsphere_db
+    ports:
+      - "8080:8080"
+    environment:
+      QUERY_DEFAULTS_LIMIT: 25
+      AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
+      PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
+      DEFAULT_VECTORIZER_MODULE: 'none'
+      ENABLE_MODULES: ''
+    volumes:
+      - weaviate_data:/var/lib/weaviate
+    networks:
+      - vectorsphere-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/v1/.well-known/ready"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
 volumes:
-- .:/app
-depends_on:
-- vectordb
-networks:
-- vectorhub-network
-
-vectordb:
-image: semitechnologies/weaviate:1.19.0
-ports:
-- "8080:8080"
-environment:
-QUERY_DEFAULTS_LIMIT: 25
-AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED: 'true'
-PERSISTENCE_DATA_PATH: '/var/lib/weaviate'
-DEFAULT_VECTORIZER_MODULE: 'none'
-ENABLE_MODULES: ''
-volumes:
-- weaviate_data:/var/lib/weaviate
-networks:
-- vectorhub-network
-
-volumes:
-weaviate_data:
+  weaviate_data:
+    name: vectorsphere_weaviate_data
 
 networks:
-vectorhub-network:
-driver: bridge
-
-# .dockerignore
-__pycache__
-*.pyc
-*.pyo
-*.pyd
-.Python
-env/
-venv/
-.env
-*.log
-.git/
-.gitignore
-Dockerfile
-docker-compose.yml
-README.md
-tests/
-notebooks/
+  vectorsphere-network:
+    name: vectorsphere_network
+    driver: bridge
