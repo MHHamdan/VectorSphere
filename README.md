@@ -1,10 +1,7 @@
 # VectorSphere: Advanced Vector Search & Retrieval System
 
 ## Project Overview
-<<<<<<< HEAD
-=======
 
->>>>>>> 5c87cc1 (Add configuration management with environment var)
 VectorSphere is a production-ready vector search system that demonstrates state-of-the-art approaches to semantic search and retrieval at scale. The system implements multiple embedding models, vector search algorithms, and retrieval approaches to provide flexible and powerful semantic search capabilities.
 
 ### Key Features
