@@ -1,8 +1,11 @@
-# 🚀 VectorSphere: Scalable AI-Powered Vector Search System
+<h1>🚀 VectorSphere: Scalable AI-Powered Vector Search System</h1>
 
-![VectorSphere Logo](https://github.com/MHHamdan/VectorSphere/blob/main/assets/images/vectorsphere-logo.png)
+<p align="center">
+  <img src="https://github.com/MHHamdan/VectorSphere/blob/main/assets/images/vectorsphere-logo.png" alt="VectorSphere Logo" width="250">
+</p>
 
 ## 📌 Overview
+
 
 VectorSphere is a **high-performance AI-powered vector search system** designed for **semantic search and retrieval at scale**. It integrates **multiple embedding models, advanced vector search algorithms, and retrieval techniques**, making it ideal for **recommendation systems, intelligent search, and knowledge retrieval**.
 
