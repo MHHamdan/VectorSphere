@@ -1,175 +1,169 @@
-<div align="center">
-  <img src="assets/images/vectorsphere-logo.png" alt="VectorSphere Logo" width="200"/>
-</div>
+# **VectorSphere: Advanced Vector Search & Retrieval System**
 
-# VectorSphere: Advanced Vector Search & Retrieval System
+![VectorSphere Logo](assets/logo.png)  <!-- Add a project logo here if available -->
 
-## Project Overview
+## **📌 Project Overview**
+VectorSphere is a **scalable and production-ready vector search system** designed for **semantic search and retrieval at scale**. It integrates **multiple embedding models, vector search algorithms, and retrieval techniques** to provide **state-of-the-art AI-driven search capabilities**.
 
-VectorSphere is a production-ready vector search system that demonstrates state-of-the-art approaches to semantic search and retrieval at scale. The system implements multiple embedding models, vector search algorithms, and retrieval approaches to provide flexible and powerful semantic search capabilities.
+---
 
-### Key Features
+## **🚀 Key Features**
+### 🔹 **Multi-Model Embedding Pipeline**
+✅ Supports **multiple embedding models** (`SentenceTransformers`, `OpenAI`, `HuggingFace`)  
+✅ **Fine-tuning & Optimization** of embeddings for better search  
+✅ **Embedding caching** to reduce redundant computation  
 
-- **Multi-model Embedding Pipeline**
-  - Support for various embedding models (e.g., SentenceTransformers, OpenAI embeddings)
-  - Model fine-tuning capabilities
-  - Embedding caching and optimization
-- **Scalable Vector Search Implementation**
-  - HNSW algorithm integration [(Reference)](https://www.pinecone.io/learn/series/faiss/hnsw/)
-  - Faiss-based optimization [(Reference)](https://www.pinecone.io/learn/series/faiss/)
-  - Efficient similarity computation
-- **Advanced Retrieval System**
-  - Hybrid search combining BM25 and vector similarity [(Reference)](https://weaviate.io/blog/hybrid-search-explained)
-  - Sophisticated re-ranking pipeline
-  - RAG (Retrieval-Augmented Generation) with configurable LLM backends
-- **Production-Ready Infrastructure**
-  - Comprehensive MLOps pipeline for model deployment and monitoring
-  - Robust observability with Prometheus and Grafana
-  - Performance benchmarking tools
+### 🔹 **Scalable Vector Search Implementation**
+✅ **HNSW Algorithm** for efficient nearest-neighbor search (Reference)  
+✅ **FAISS Optimization** for large-scale similarity search  
+✅ **Hybrid Search** (BM25 + Vector Similarity) for better retrieval  
 
-## Technical Architecture
+### 🔹 **Advanced Retrieval System**
+✅ **Hybrid search combining BM25 + vector embeddings**  
+✅ **Re-ranking pipeline** to improve result precision  
+✅ **RAG (Retrieval-Augmented Generation) with configurable LLM backends**  
 
-### Core Components
+### 🔹 **Production-Ready Infrastructure**
+✅ **MLOps pipeline** for model deployment & monitoring  
+✅ **Real-time observability** using `Prometheus` and `Grafana`  
+✅ **Performance benchmarking tools**  
 
-1. **Embedding Service**
+---
 
-   - Multiple embedding model support (SentenceTransformers, OpenAI embeddings)
-   - Fine-tuning pipeline
-   - Caching and optimization
+## **⚙️ Technical Architecture**
+VectorSphere is built with **modular components** that ensure flexibility and scalability.
 
-2. **Vector Storage & Search**
+### **📌 Core Components**
+🔹 **Embedding Service**  
+   - Supports multiple embedding models (`SentenceTransformers`, `OpenAI`)  
+   - Fine-tuning & caching for optimized performance  
 
-   - Primary: Weaviate integration for scalable vector storage
-   - Secondary: Faiss for rapid prototyping
-   - PGVector hybrid search capabilities
+🔹 **Vector Storage & Search**  
+   - **Primary:** Uses **Weaviate** for scalable vector storage  
+   - **Secondary:** Supports **FAISS** for rapid prototyping  
+   - **Hybrid:** Uses **PGVector** for SQL-based vector search  
 
-3. **Retrieval System**
+🔹 **Retrieval System**  
+   - Combines **BM25** (text search) + **vector similarity**  
+   - Implements **re-ranking pipelines** for high precision  
+   - **RAG-based AI retrieval** using **LLM backends**  
 
-   - Hybrid search combining vector and text approaches
-   - Re-ranking pipeline
-   - RAG implementation with LLM backends
+🔹 **API Layer**  
+   - Built with **FastAPI**  
+   - **Async support** for handling high-load requests  
+   - Secure with **rate limiting & authentication**  
 
-4. **API Layer**
+🔹 **MLOps Pipeline**  
+   - Uses **Docker + Kubeflow** for training & deployment  
+   - **Monitoring with Prometheus & Grafana**  
+   - **Scalable CI/CD for rapid iteration**  
 
-   - FastAPI implementation with async support
-   - Comprehensive API documentation
-   - Rate limiting and security mechanisms
+---
 
-5. **MLOps Pipeline**
-   - Docker containerization
-   - Kubeflow pipelines for training and deployment
-   - Monitoring and observability (Prometheus, Grafana)
+## **🛠 Technology Stack**
+| **Category**        | **Technology Used** |
+|---------------------|--------------------|
+| **Backend Framework** | FastAPI |
+| **Machine Learning** | PyTorch, Hugging Face Transformers |
+| **Vector Search** | Weaviate, FAISS, PGVector |
+| **Text Search** | Elasticsearch |
+| **Data Processing** | Ray, Dask |
+| **MLOps** | Docker, Kubeflow |
+| **Monitoring** | Prometheus, Grafana |
 
-## Technology Stack
+---
 
-- **Backend Framework**: FastAPI
-- **Machine Learning**: PyTorch, transformers
-- **Vector Search**: Weaviate, Faiss, PGVector
-- **Traditional Search**: Elasticsearch
-- **Data Processing**: Ray, Dask
-- **MLOps**: Docker, Kubeflow
-- **Monitoring**: Prometheus, Grafana
+## **🔧 Getting Started**
+### **📌 Prerequisites**
+Before running the project, ensure you have the following installed:
+- **Python 3.9+**
+- **Docker & Docker Compose**
+- **Git**
 
-## Getting Started
-
-### Prerequisites
-
-Ensure you have the following installed:
-
-- Python 3.9 or higher
-- Docker and Docker Compose
-- Git
-
-### Installation Steps
-
+### **📌 Installation Steps**
 ```bash
 # Clone the repository
 git clone https://github.com/MHHamdan/VectorSphere.git
-<<<<<<< HEAD
-=======
 cd VectorSphere
->>>>>>> 5c87cc1 (Add configuration management with environment var)
 
 # Create and activate virtual environment
 python -m venv venv
-source venv/bin/activate  # or `venv\Scripts\activate` on Windows
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
-```
 
-### Running the Project
 
-```bash
+#📌 Running the Project
+
+
 # Start the services
 docker-compose up -d
 
 # Run the API
 uvicorn app.main:app --reload
-```
 
-### Accessing the Services
+#🌍 Accessing the Services
+Service               	URL
+API Documentation	http://localhost:8000/docs
+Vector Database Console	http://localhost:8080
 
-- API Documentation: [http://localhost:8000/docs](http://localhost:8000/docs)
-- Vector Database Console: [http://localhost:8080](http://localhost:8080)
-
-## Project Structure
-
-```
+#📂 Project Structure
 VectorSphere/
 │
 ├── app/
-│   ├── __init__.py
 │   ├── main.py                 # FastAPI application
 │   ├── services/
-│   │   ├── __init__.py
-│   │   ├── embedding.py        # Embedding service implementation
-│   │   └── vector_db.py        # Vector database service
-│   └── core/
-│       ├── __init__.py
-│       └── config.py           # Configuration module
+│   │   ├── embedding.py        # Embedding service
+│   │   ├── vector_db.py        # Vector database service
+│   │   ├── hybrid_search.py    # BM25 + Vector hybrid search
+│   │   ├── reranking.py        # Re-ranking module
+│   │   └── streaming.py        # Real-time vector ingestion
+│   ├── core/
+│   │   ├── config.py           # Configuration module
+│   │   ├── dependencies.py     # API dependencies
+│   └── routes/
+│       ├── search.py           # API endpoints for search
+│       ├── embeddings.py       # API endpoints for embeddings
+│       ├── health.py           # Health check routes
 │
 ├── tests/
-│   ├── __init__.py
-│   ├── conftest.py            # Test configurations and fixtures
 │   ├── test_embedding_service.py
 │   ├── test_vector_db_service.py
-│   └── test_api.py
+│   ├── test_api.py
 │
-├── Dockerfile                  # Docker configuration
-├── docker-compose.yml         # Docker Compose configuration
-├── .dockerignore             # Docker ignore file
-├── requirements.txt          # Project dependencies
-└── pytest.ini               # Pytest configuration
-```
+├── scripts/                    # Utility scripts
+│   ├── benchmark.py            # Benchmarking FAISS vs Weaviate
+│   ├── ingest_vectors.py       # Vector ingestion
+│   ├── update_index.py         # Refresh FAISS index
+│
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+├── README.md
+└── .env
 
-## Development Roadmap
+# 🚀 Development Roadmap
+✅ Phase 1: Core Implementation
+ Base embedding functionality
+ Vector search system
+ REST API
+🔜 Phase 2: Advanced Features
+ Hybrid search implementation (BM25 + Vectors)
+ RAG integration
+ Performance optimization
+🔜 Phase 3: Production Readiness
+ MLOps pipeline
+ Monitoring & observability
+ Documentation and examples
+🤝 Contributing
+We welcome contributions! Please read our contributing guidelines before submitting PRs.
 
-1. **Core Implementation**
+📜 License
+This project is licensed under the MIT License.
 
-   - Base embedding functionality
-   - Vector search system
-   - REST API development
+📩 Contact
+For questions or suggestions, open an issue on GitHub:
+🔗 VectorSphere GitHub Repo
 
-2. **Advanced Features**
 
-   - Hybrid search implementation
-   - RAG integration
-   - Performance optimization
-
-3. **Production Readiness**
-   - MLOps pipeline
-   - Monitoring and observability
-   - Documentation and examples
-
-## Contributing
-
-We welcome contributions that align with our project goals. Please read our [contributing guidelines](CONTRIBUTING.md) before submitting pull requests.
-
-## License
-
-This project is licensed under the MIT License. See the LICENSE file for details.
-
-## Contact
-
-For questions or suggestions, please open an issue in the GitHub repository: [https://github.com/MHHamdan/VectorSphere](https://github.com/MHHamdan/VectorSphere)
