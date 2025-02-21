@@ -5,7 +5,6 @@ import numpy as np
 from collections import deque
 import threading
 import time
-from app.services.reranking import reranking_service
 
 class HybridSearch:
     def __init__(self):
@@ -69,17 +68,9 @@ class HybridSearch:
         # FAISS vector search
         vector_results = vector_db.search_vector(query_vector, k)
 
-        # # Combine results (Hybrid approach)
-        # combined_results = list(set(bm25_results + vector_results))[:k]  # Merge results
-        # return combined_results
-        
         # Combine results (Hybrid approach)
-        combined_results = list(set(bm25_results + vector_results))[:k]
-
-        # Re-rank results using Cross-Encoder
-        reranked_results = reranking_service.rerank(query, combined_results)
-
-        return reranked_results
+        combined_results = list(set(bm25_results + vector_results))[:k]  # Merge results
+        return combined_results
 
 # Singleton instance
 hybrid_search = HybridSearch()

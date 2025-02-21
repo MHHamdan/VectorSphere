@@ -1,3 +1,6 @@
+torch
+transformers
+sentence-transformers
 fastapi
 uvicorn
 sentence-transformers
