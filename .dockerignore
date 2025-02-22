@@ -1,13 +1,25 @@
-__pycache__
+# Byte-compiled / optimized / DLL files
+__pycache__/
 *.pyc
 *.pyo
 *.pyd
+
+# Virtual environments
 .Python
 env/
 venv/
+
+# Environment variables
 .env
+
+# Logs
 *.log
+
+# Git
 .git/
 .gitignore
+
+# Development and testing
 tests/
 notebooks/
+
