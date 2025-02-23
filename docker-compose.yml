@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   # FastAPI application service
@@ -10,14 +10,17 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - VECTOR_DB_HOST=vectordb
+      - VECTOR_DB_HOST=weaviate
       - VECTOR_DB_PORT=8080
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
       - DEBUG=true
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     volumes:
       - .:/app
     depends_on:
-      - vectordb
+      - weaviate
+      - redis
     networks:
       - vectorhub-network
     healthcheck:
@@ -27,33 +30,26 @@ services:
       retries: 3
 
   # Weaviate vector database service
-  vectordb:
-    image: semitechnologies/weaviate:1.19.0
+  weaviate:
+    image: semitechnologies/weaviate:1.16.0
     container_name: vectorsphere_weaviate
     ports:
       - "8080:8080"
     environment:
-      - QUERY_DEFAULTS_LIMIT=25
       - AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED=true
       - PERSISTENCE_DATA_PATH=/var/lib/weaviate
-      - DEFAULT_VECTORIZER_MODULE=none
-      - ENABLE_MODULES=''
-    volumes:
-      - weaviate_data:/var/lib/weaviate
     networks:
       - vectorhub-network
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/v1/.well-known/ready"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
-# Named volumes for persistent data
-volumes:
-  weaviate_data:
-    driver: local
+  # Redis caching service
+  redis:
+    image: redis:latest
+    container_name: vectorsphere_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - vectorhub-network
 
-# Custom network for service communication
 networks:
   vectorhub-network:
     driver: bridge
