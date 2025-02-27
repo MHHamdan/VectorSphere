@@ -8,3 +8,4 @@ openai
 faiss-cpu
 numpy
 rank-bm25
+redis
