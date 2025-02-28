@@ -11,7 +11,12 @@ class RedisProducer:
         Adds a new document to the Redis Stream for processing.
         """
         data = {"doc_id": doc_id, "text": text}
-        self.redis_client.xadd("document_stream", data)
+        #self.redis_client.xadd("document_stream", data)
+	
+	self.redis_client.hset(f"doc:{doc_id}", mapping={"text": text})
+	self.redis_client.expire(f"doc:{doc_id}", 86400)  # Set TTL for 24 hours
+	self.redis_client.xadd("document_stream", {"doc_id": doc_id})
+
         return {"message": "Document added to Redis Stream for processing"}
 
 # Singleton instance

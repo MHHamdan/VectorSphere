@@ -18,7 +18,14 @@ class RedisConsumer:
                     _, entries = stream_data[0]
                     for entry_id, data in entries:
                         doc_id = int(data["doc_id"])
-                        text = data["text"]
+                        #text = data["text"]
+			doc_id = int(data["doc_id"])
+			text = self.redis_client.hget(f"doc:{doc_id}", "text")
+
+			if text:  # Only process if text exists
+			    hybrid_search.add_document(text, doc_id)
+			    print(f"Indexed document {doc_id}: {text}")
+	
                         hybrid_search.add_document(text, doc_id)
                         print(f"Indexed document {doc_id}: {text}")
             except Exception as e:
