@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vectorsphere-redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vectorsphere-redis
+  template:
+    metadata:
+      labels:
+        app: vectorsphere-redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:latest
+          ports:
+            - containerPort: 6379
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vectorsphere-redis
+spec:
+  selector:
+    app: vectorsphere-redis
+  ports:
+    - protocol: TCP
+      port: 6379
+      targetPort: 6379
+

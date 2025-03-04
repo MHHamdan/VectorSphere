@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vectorsphere-weaviate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vectorsphere-weaviate
+  template:
+    metadata:
+      labels:
+        app: vectorsphere-weaviate
+    spec:
+      containers:
+        - name: weaviate
+          image: semitechnologies/weaviate:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: AUTHENTICATION_ANONYMOUS_ACCESS_ENABLED
+              value: "true"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: vectorsphere-weaviate
+spec:
+  selector:
+    app: vectorsphere-weaviate
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
