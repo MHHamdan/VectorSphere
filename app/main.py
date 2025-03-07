@@ -1,8 +1,12 @@
 from fastapi import FastAPI
 from app.routes import embeddings, vector_db, search, hybrid_search, redis_ingestion, query_expansion, auth
+from prometheus_fastapi_instrumentator import Instrumentator
+
+
 
 # Initialize FastAPI app
 app = FastAPI(title="VectorSphere", description="AI-powered Hybrid Search System")
+Instrumentator().instrument(app).expose(app)
 
 # Include routes
 app.include_router(auth.router, prefix="/api", tags=["Authentication"])
