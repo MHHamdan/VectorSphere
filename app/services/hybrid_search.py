@@ -6,6 +6,9 @@ from collections import deque
 import threading
 import time
 from app.services.reranking import reranking_service
+from app.services.query_expansion import query_expansion
+from app.services.learning_to_rank import learning_to_rank  # Import LTR
+
 
 class HybridSearch:
     def __init__(self):
@@ -45,7 +48,11 @@ class HybridSearch:
 
                         # Generate and store vector embeddings
                         embedding = embedding_service.encode(text, "sentence-transformers")
+                        faiss.normalize_L2(embedding)  # Normalize for better similarity
                         vector_db.add_vector(embedding, doc_id, text)
+
+
+
 
     def add_document(self, text: str, doc_id: int):
         """
@@ -56,30 +63,37 @@ class HybridSearch:
 
     def search(self, query: str, k=5):
         """
-        Performs hybrid search using BM25 and vector similarity.
+        Performs hybrid search using BM25, vector search, and re-ranking.
         """
-        query_vector = embedding_service.encode(query, "sentence-transformers")
-
-        # BM25 text-based search
-        tokenized_query = query.lower().split()
-        bm25_scores = self.bm25.get_scores(tokenized_query)
-        bm25_top_k_indices = np.argsort(bm25_scores)[::-1][:k]
-        bm25_results = [self.documents[idx][1] for idx in bm25_top_k_indices if idx < len(self.documents)]
-
-        # FAISS vector search
-        vector_results = vector_db.search_vector(query_vector, k)
-
-        # # Combine results (Hybrid approach)
-        # combined_results = list(set(bm25_results + vector_results))[:k]  # Merge results
-        # return combined_results
+        # Expand query
+        expanded_queries = query_expansion.expand_query(query)
         
-        # Combine results (Hybrid approach)
-        combined_results = list(set(bm25_results + vector_results))[:k]
+        fusion_results = {}
 
-        # Re-rank results using Cross-Encoder
-        reranked_results = reranking_service.rerank(query, combined_results)
+        
+        for expanded_query in expanded_queries:
+            query_vector = embedding_service.encode(expanded_query, "sentence-transformers")
+            
+            # BM25 Search
+            bm25_results = self.bm25_search(expanded_query, k)
+            tokenized_query = expanded_query.lower().split()
+            bm25_scores = self.bm25.get_scores(tokenized_query)
 
-        return reranked_results
+            # FAISS Vector Search
+            vector_results = vector_db.search_vector(query_vector, k)
+
+            # Combine Results Using Weighted Fusion
+            for doc, score in zip(bm25_results, bm25_scores):
+                fusion_results[doc] = fusion_results.get(doc, 0) + score * 0.7  # BM25 weight
+
+            for doc in vector_results:
+                fusion_results[doc] = fusion_results.get(doc, 0) + 0.3  # Vector weight
+
+        # Re-rank final results
+        query_vector = embedding_service.encode(query, "sentence-transformers")
+        ranked_results = learning_to_rank.predict_ranking(query_vector, list(fusion_results.keys()))
+
+        return ranked_results[:k]
 
 # Singleton instance
 hybrid_search = HybridSearch()
