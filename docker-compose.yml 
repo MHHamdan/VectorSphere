@@ -45,6 +45,19 @@ services:
       timeout: 10s
       retries: 3
 
+
+redis:
+  image: redis:latest
+  container_name: vectorsphere_redis
+  ports:
+    - "6379:6379"
+  command: ["redis-server", "--save", "900", "1", "--appendonly", "yes"]
+  volumes:
+    - redis_data:/data
+  sysctls:
+    - net.core.somaxconn=1024
+
+
 volumes:
   weaviate_data:
     name: vectorsphere_weaviate_data
@@ -53,3 +66,6 @@ networks:
   vectorsphere-network:
     name: vectorsphere_network
     driver: bridge
+
+
+    

@@ -19,7 +19,7 @@ class RedisConsumer:
                     for entry_id, data in entries:
                         doc_id = int(data["doc_id"])
                         #text = data["text"]
-			doc_id = int(data["doc_id"])
+			#doc_id = int(data["doc_id"])
 			text = self.redis_client.hget(f"doc:{doc_id}", "text")
 
 			if text:  # Only process if text exists
